@@ -1,123 +1,170 @@
+<!-- post page -->
+
 <% layout('layouts/boilerplate') %>
-    <div class="container py-5 d-flex flex-column">
-        <div class="row my-5 mx-2 mx-sm-0">
-            <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-                <div class="d-flex flex-column flex-sm-row justify-content-between  px-0">
-                    <a class="btn btn-outline-secondary mb-3 mb-sm-0" href="/forum">Return
-                        to Forum</a>
-                    <% if(currentUser && post.author.equals(currentUser._id)) { %>
-                        <div class="d-flex flex-column flex-sm-row">
-                            <form action="/forum/<%= post._id %>?_method=DELETE" method="POST">
-                                <button class="btn btn-outline-danger col-12 col-sm-0 mb-3 mb-sm-0">Delete</button>
-                            </form>
-                            <a class="btn btn-outline-success ms-0 ms-sm-3" href="/forum/<%= post._id %>/edit">Edit</a>
-                        </div>
-                        <% } %>
-                </div>
-                <div class="card px-4 my-5 py-5">
-                    <h3 class="card-title fw-bold">
-                        <%= post.title %>
-                    </h3>
-                    <p class="card-body px-0">
-                        <%= post.description %>
-                    </p>
-                    <div id="carouselControls" class="carousel slide mb-4" data-bs-interval="false"
-                        data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <% post.images.forEach((image, i)=> { %>
-                                <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-                                    <img src="<%= image.url %>" class="d-block w-100" alt="image-fluid">
-                                </div>
-                                <% }) %>
-                        </div>
-                        <% if (post.images.length> 1) { %>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselControls"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                            <% } %>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <p class="text-muted">
-                            Posted by <%= post.author.username %> on
-                                <%= post.created_at.toDateString() %>
-                        </p>
-                    </div>
-                </div>
-                <div class="px-0">
-                    <h4 class="mb-5">Comments</h4>
-                    <% if(comments.length < 1) { %>
-                        <h6 class="text-center">
-                            No comments found, be the first one to comment!
-                        </h6>
-                        <% } %>
-                            <% for(let comment of comments) { %>
-                                <div class="card px-3 py-3 my-3">
-                                    <% if(comment.replyTo) { %>
-                                        <p class="card-body my-0 text-muted fw-bold">
-                                            "<%= comment.replyTo %>""
-                                        </p>
-                                        <% } %>
-                                            <p class="card-body my-0">
-                                                <%= comment.comment %>
-                                            </p>
-                                            <div class="card-body text-muted py-0 d-flex flex-column align-items-end">
-                                                <% if(comment.replyTo) { %>
-                                                    <p>
-                                                        Replied by <%= comment.author.username %> on <%=
-                                                                comment.created_at.toDateString() %>
-                                                    </p>
-                                                    <% } else { %>
-                                                        <p>
-                                                            Commented by <%= comment.author.username %> on <%=
-                                                                    comment.created_at.toDateString() %>
-                                                        </p>
-                                                        <% } %>
-                                                            <div class="d-flex">
-                                                                <% if(currentUser &&
-                                                                    comment.author.equals(currentUser._id)) { %>
-                                                                    <form
-                                                                        action="/forum/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
-                                                                        method="POST">
-                                                                        <button
-                                                                            class="btn btn-outline-danger">Delete</button>
-                                                                    </form>
-                                                                    <% } %>
-                                                                        <button id="replyButton<%= comment._id %>"
-                                                                            class="btn btn-outline-success ms-3 replyButton"
-                                                                            data-bs-toggle="collapse"
-                                                                            href="#replyForm<%= comment._id %>"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="replyForm<%= comment._id %>">Reply</button>
-                                                            </div>
-                                                            <form id="replyForm<%= comment._id %>"
-                                                                action="/forum/<%= post._id %>/comment/<%= comment._id %>"
-                                                                method="POST" class="col-12 mt-3 hide collapse"
-                                                                novalidate>
-                                                                <textarea name="comment"
-                                                                    id="replyField<%= comment._id %>"
-                                                                    class="form-control replyField" rows="1"
-                                                                    required></textarea>
-                                                            </form>
-                                            </div>
-                                </div>
-                                <% } %>
-                </div>
-                <form action="/forum/<%= post._id %>/comment" method="POST" class="validated-form mt-5 px-0" novalidate>
-                    <div class="mb-3">
-                        <textarea name="comment" id="comment" class="form-control" rows="5" required></textarea>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-success">Make Comment</button>
-                    </div>
-                </form>
-            </div>
+<div class="container py-5 d-flex flex-column">
+  <div class="row my-5 mx-2 mx-sm-0">
+    <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+      <div class="d-flex flex-column flex-sm-row justify-content-between px-0">
+        <a class="btn btn-outline-secondary mb-3 mb-sm-0" href="/forum"
+          >Return to Forum</a
+        >
+
+        <!-- show delete and edit buttons if the user is the owner of post -->
+        <% if(currentUser && post.author.equals(currentUser._id)) { %>
+        <div class="d-flex flex-column flex-sm-row">
+          <form action="/forum/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-outline-danger col-12 col-sm-0 mb-3 mb-sm-0">
+              Delete
+            </button>
+          </form>
+          <a
+            class="btn btn-outline-success ms-0 ms-sm-3"
+            href="/forum/<%= post._id %>/edit"
+            >Edit</a
+          >
         </div>
+        <% } %>
+      </div>
+
+      <div class="card px-4 my-5 py-5">
+        <h3 class="card-title fw-bold"><%= post.title %></h3>
+        <p class="card-body px-0"><%= post.description %></p>
+        <div
+          id="carouselControls"
+          class="carousel slide mb-4"
+          data-bs-interval="false"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <% post.images.forEach((image, i)=> { %>
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img
+                src="<%= image.url %>"
+                class="d-block w-100"
+                alt="image-fluid"
+              />
+            </div>
+            <% }) %>
+          </div>
+
+          <!-- show images -->
+          <% if (post.images.length> 1) { %>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselControls"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselControls"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+        </div>
+        <div class="d-flex justify-content-end">
+          <p class="text-muted">
+            Posted by <%= post.author.username %> on <%=
+            post.created_at.toDateString() %>
+          </p>
+        </div>
+      </div>
+      <div class="px-0">
+        <h4 class="mb-5">Comments</h4>
+
+        <!-- if there's no comment -->
+        <% if(comments.length < 1) { %>
+        <h6 class="text-center">
+          No comments found, be the first one to comment!
+        </h6>
+        <% } %> <% for(let comment of comments) { %>
+        <div class="card px-3 py-3 my-3">
+          <% if(comment.replyTo) { %>
+          <p class="card-body my-0 text-muted fw-bold">
+            "<%= comment.replyTo %>""
+          </p>
+          <% } %>
+          <p class="card-body my-0"><%= comment.comment %></p>
+          <div
+            class="card-body text-muted py-0 d-flex flex-column align-items-end"
+          >
+            <% if(comment.replyTo) { %>
+            <p>
+              Replied by <%= comment.author.username %> on <%=
+              comment.created_at.toDateString() %>
+            </p>
+            <% } else { %>
+            <p>
+              Commented by <%= comment.author.username %> on <%=
+              comment.created_at.toDateString() %>
+            </p>
+            <% } %>
+            <div class="d-flex">
+              <% if(currentUser && comment.author.equals(currentUser._id)) { %>
+              <form
+                action="/forum/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+                method="POST"
+              >
+                <button class="btn btn-outline-danger">Delete</button>
+              </form>
+              <% } %>
+              <button
+                id="replyButton<%= comment._id %>"
+                class="btn btn-outline-success ms-3 replyButton"
+                data-bs-toggle="collapse"
+                href="#replyForm<%= comment._id %>"
+                aria-expanded="false"
+                aria-controls="replyForm<%= comment._id %>"
+              >
+                Reply
+              </button>
+            </div>
+            <form
+              id="replyForm<%= comment._id %>"
+              action="/forum/<%= post._id %>/comment/<%= comment._id %>"
+              method="POST"
+              class="col-12 mt-3 hide collapse"
+              novalidate
+            >
+              <textarea
+                name="comment"
+                id="replyField<%= comment._id %>"
+                class="form-control replyField"
+                rows="1"
+                required
+              ></textarea>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <form
+        action="/forum/<%= post._id %>/comment"
+        method="POST"
+        class="validated-form mt-5 px-0"
+        novalidate
+      >
+        <div class="mb-3">
+          <textarea
+            name="comment"
+            id="comment"
+            class="form-control"
+            rows="5"
+            required
+          ></textarea>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success">Make Comment</button>
+        </div>
+      </form>
     </div>
-    <script src="/js/replyButton.js"></script>
+  </div>
+</div>
+<script src="/js/replyButton.js"></script>

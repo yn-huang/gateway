@@ -1,67 +1,114 @@
+<!-- navbar -->
+
 <nav class="navbar navbar-expand-lg sticky-top bg-dark navbar-dark text-white">
-    <div class="container d-flex justify-content-between">
-        <a class="navbar-brand text-white text-decoration-none" href="/">Gateway</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="nav navbar-nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white text-decoration-none" href="#" id="navbarDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        About
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Our Mission</a></li>
-                        <li><a class="dropdown-item" href="#">Program History</a></li>
-                        <li><a class="dropdown-item" href="#">Collaborating Schools</a></li>
-                        <li><a class="dropdown-item" href="#">News</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white text-decoration-none" href="#" id="navbarDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Partnership
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">BioBus</a></li>
-                        <li><a class="dropdown-item" href="#">Kaplan</a></li>
-                        <li><a class="dropdown-item" href="#">Liberty Science Center</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white text-decoration-none" href="#" id="navbarDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/forum">Forum</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">College Tours</a></li>
-                        <li><a class="dropdown-item" href="#">Internship Listings</a></li>
-                        <li><a class="dropdown-item" href="#">Resources</a></li>
-                        <li><a class="dropdown-item" href="#">Scholarship Listings</a></li>
-                        <li><a class="dropdown-item" href="#">Virtual Workshops</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white text-decoration-none" href="">Parents</a>
-                </li>
-            </ul>
-            <div class="d-flex align-items-center justify-content-end">
-                <% if(!currentUser) { %>
-                    <a href="/user/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-                    <a href="/user/signup"><button type="button" class="btn btn-success">Sign
-                            Up</button></a>
-                    <% } else { %>
-                        <div class="px-3">Welcome, <%= currentUser.username %>!
-                        </div>
-                        <a href="/user/logout"><button type="button" class="btn btn-success">Logout</button></a>
-                        <% } %>
-            </div>
-        </div>
+  <div class="container d-flex justify-content-between">
+    <!-- brand -->
+    <a class="navbar-brand text-white text-decoration-none" href="/">Gateway</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- nav menu -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul
+        class="nav navbar-nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+      >
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white text-decoration-none"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            About
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Our Mission</a></li>
+            <li><a class="dropdown-item" href="#">Program History</a></li>
+            <li><a class="dropdown-item" href="#">Collaborating Schools</a></li>
+            <li><a class="dropdown-item" href="#">News</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white text-decoration-none"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Partnership
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">BioBus</a></li>
+            <li><a class="dropdown-item" href="#">Kaplan</a></li>
+            <li>
+              <a class="dropdown-item" href="#">Liberty Science Center</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white text-decoration-none"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Students
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/forum">Forum</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">College Tours</a></li>
+            <li><a class="dropdown-item" href="#">Internship Listings</a></li>
+            <li><a class="dropdown-item" href="#">Resources</a></li>
+            <li><a class="dropdown-item" href="#">Scholarship Listings</a></li>
+            <li><a class="dropdown-item" href="#">Virtual Workshops</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white text-decoration-none" href=""
+            >Parents</a
+          >
+        </li>
+      </ul>
+
+      <!-- conditional render login, signup and logout buttons -->
+      <div class="d-flex align-items-center justify-content-end">
+        <!-- not logged in -->
+        <% if(!currentUser) { %>
+        <a href="/user/login"
+          ><button type="button" class="btn btn-outline-light me-2">
+            Login
+          </button></a
+        >
+        <a href="/user/signup"
+          ><button type="button" class="btn btn-success">Sign Up</button></a
+        >
+
+        <!-- logged in -->
+        <% } else { %>
+        <div class="px-3">Welcome, <%= currentUser.username %>!</div>
+        <a href="/user/logout"
+          ><button type="button" class="btn btn-success">Logout</button></a
+        >
+        <% } %>
+      </div>
     </div>
+  </div>
 </nav>

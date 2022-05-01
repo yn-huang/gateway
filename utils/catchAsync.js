@@ -1,5 +1,6 @@
-module.exports = func => {
-    return (req, res, next) => {
-        func(req, res, next).catch(next);
-    }
-}
+// catch async error
+module.exports = (func) => {
+  return (req, res, next) => {
+    func(req, res, next).catch(next);
+  };
+};
